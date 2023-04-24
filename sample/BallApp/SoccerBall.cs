@@ -20,6 +20,8 @@ namespace BallApp {
         private double moveX;
         private double moveY;
 
+        private static int count; //ボール数　ボールクラスでカウント
+
 
         public SoccerBall(){
             Image = Image.FromFile(@"pic\soccer_ball.png");
@@ -27,6 +29,7 @@ namespace BallApp {
             PosY = 0.0;
         }
 
+        //コンストラクタ
         public SoccerBall(double x, double y){
             Image = Image.FromFile(@"pic\soccer_ball.png");
             PosX = x;
@@ -36,12 +39,15 @@ namespace BallApp {
             moveX = (rndX != 0 ? rndX : 1); //乱数で移動量を設定（x座標）
             int rndY = rnd.Next(-15, 15);
             moveY = (rndY != 0 ? rndY : 1); //乱数で移動量を設定（y座標）
+
+            count++; //ボール数　ボールクラスでカウント
         }
 
 
         public double PosX { get => posX; set => posX = value; }
         public double PosY { get => posY; set => posY = value; }
         public Image Image { get => image; set => image= value; }
+        public static int Count { get => count; set => count = value; }
 
         public void Move(){
 

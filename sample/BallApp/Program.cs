@@ -15,13 +15,15 @@ namespace BallApp {
         private List<SoccerBall> balls = new List<SoccerBall>(); //ボールインスタンス格納用
         private List<PictureBox> pbs = new List<PictureBox>(); //表示用
 
+        //private int BallCount; //ボールの数　クリック回数でカウント
+
         static void Main(string[] args){
             Application.Run(new Program());
         }
 
         public Program(){
             this.Size = new Size(800, 600);
-            this.BackColor = Color.Green;
+            this.BackColor = Color.Green; 
             this.Text = "BallGame";
             this.MouseClick += Program_MouseClick;
 
@@ -47,6 +49,9 @@ namespace BallApp {
             balls.Add(soccerBall);
             pbs.Add(pb);
 
+            //this.Text = "BallGame:" + ++BallCount; //ボールの数　クリック回数でカウント
+            this.Text = "BallGame:" + SoccerBall.Count;　//ボール数　ボールクラスでカウント
+
             moveTimer.Start(); //タイマースタート
         }
 
@@ -54,6 +59,8 @@ namespace BallApp {
             for (int i = 0; i < balls.Count;i++) {
                 balls[i].Move(); //移動
                 pbs[i].Location = new Point((int)balls[i].PosX, (int)balls[i].PosY); //画像の位置
+                //this.Text = "BallGame["+(i+1)+"]"; //ボール数　配列の数でカウント
+                
 
             }
         }
