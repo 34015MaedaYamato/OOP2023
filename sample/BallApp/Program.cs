@@ -22,7 +22,6 @@ namespace BallApp {
         static void Main(string[] args){
             Application.Run(new Program());
         }
-
         public Program(){
             this.Size = new Size(800, 600);
             this.BackColor = Color.Green; 
@@ -33,25 +32,25 @@ namespace BallApp {
             moveTimer.Interval = 10; //タイマーのインターバル
             //moveTimer.Start(); //タイマースタート
             moveTimer.Tick += MoveTimer_Tick; //デリゲート登録
-            
 
         }
 
         //マウスクリック時のイベントハンドラ
         private void Program_MouseClick(object sender, MouseEventArgs e){
             Obj ballobj = null;
-
-
+            pb = new PictureBox(); //画像を表示するコントロール
             if (e.Button == MouseButtons.Left) {
                 //ボールインスタンス生成
                 ballobj = new SoccerBall(e.X - 25, e.Y - 25);
-            }else {
-                ballobj = new TennisBall(e.X - 12, e.Y - 12);
+                pb.Size = new Size(50, 50); //画像サイズ
             }
-            pb = new PictureBox(); //画像を表示するコントロール
+            else {
+                ballobj = new TennisBall(e.X - 12, e.Y - 12);
+                pb.Size = new Size(25, 25);
+            }
+            
             pb.Image = ballobj.Image;
             pb.Location = new Point((int)ballobj.PosX, (int)ballobj.PosY);
-            pb.Size = new Size(50, 50); //画像サイズ
             pb.SizeMode = PictureBoxSizeMode.StretchImage; //画像の表示モード
             pb.Parent = this;
 
