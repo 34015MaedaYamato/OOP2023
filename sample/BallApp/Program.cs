@@ -9,8 +9,8 @@ using System.Windows.Forms;
 namespace BallApp {
     class Program:Form {
         private Timer moveTimer; //タイマー用
-        private SoccerBall soccerBall;
-        private TennisBall tennisBall;
+        //private SoccerBall soccerBall;
+        //private TennisBall tennisBall;
         private PictureBox pb;
 
         //ボールインスタンス格納用
@@ -39,47 +39,35 @@ namespace BallApp {
 
         //マウスクリック時のイベントハンドラ
         private void Program_MouseClick(object sender, MouseEventArgs e){
+            Obj ballobj = null;
+
+
             if (e.Button == MouseButtons.Left) {
-
                 //ボールインスタンス生成
-                soccerBall = new SoccerBall(e.X - 25, e.Y - 25);
-                pb = new PictureBox(); //画像を表示するコントロール
-                pb.Image = soccerBall.Image;
-                pb.Location = new Point((int)soccerBall.PosX, (int)soccerBall.PosY);
-                pb.Size = new Size(50, 50); //画像サイズ
-                pb.SizeMode = PictureBoxSizeMode.StretchImage; //画像の表示モード
-                pb.Parent = this;
-
-                balls.Add(soccerBall);
-                pbs.Add(pb);
-
-                //this.Text = "BallGame:" + ++BallCount; //ボールの数　クリック回数でカウント
-                this.Text = "BallGame [SoccerBall:"+SoccerBall.Count+"][TennisBall:"+TennisBall.Count+"]";　//ボール数　ボールクラスでカウント
-
-                moveTimer.Start(); //タイマースタート
+                ballobj = new SoccerBall(e.X - 25, e.Y - 25);
+            }else {
+                ballobj = new TennisBall(e.X - 12, e.Y - 12);
             }
-            else {
-                tennisBall = new TennisBall(e.X - 25, e.Y - 25);
-                pb = new PictureBox(); //画像を表示するコントロール
-                pb.Image = tennisBall.Image;
-                pb.Location = new Point((int)tennisBall.PosX, (int)tennisBall.PosY);
-                pb.Size = new Size(50, 50); //画像サイズ
-                pb.SizeMode = PictureBoxSizeMode.StretchImage; //画像の表示モード
-                pb.Parent = this;
+            pb = new PictureBox(); //画像を表示するコントロール
+            pb.Image = ballobj.Image;
+            pb.Location = new Point((int)ballobj.PosX, (int)ballobj.PosY);
+            pb.Size = new Size(50, 50); //画像サイズ
+            pb.SizeMode = PictureBoxSizeMode.StretchImage; //画像の表示モード
+            pb.Parent = this;
 
-                balls.Add(tennisBall);
-                pbs.Add(pb);
+            balls.Add(ballobj);
+            pbs.Add(pb);
 
-                //this.Text = "BallGame:" + ++BallCount; //ボールの数　クリック回数でカウント
-                this.Text = "BallGame [SoccerBall:" + SoccerBall.Count + "][TennisBall:" + TennisBall.Count + "]";　//ボール数　ボールクラスでカウント
+            //this.Text = "BallGame:" + ++BallCount; //ボールの数　クリック回数でカウント
+            this.Text = "BallGame [SoccerBall:" + SoccerBall.Count + "][TennisBall:" + TennisBall.Count + "]"; //ボール数　ボールクラスでカウント
 
-                moveTimer.Start(); //タイマースタート
+            moveTimer.Start(); //タイマースタート
 
-            }
         }
 
-        private void MoveTimer_Tick(object sender, EventArgs e){
-            for (int i = 0; i < balls.Count;i++) {
+        private void MoveTimer_Tick(object sender, EventArgs e)
+        {
+            for (int i = 0; i < balls.Count; i++) {
                 balls[i].Move(); //移動
                 pbs[i].Location = new Point((int)balls[i].PosX, (int)balls[i].PosY); //画像の位置
                 //this.Text = "BallGame["+(i+1)+"]"; //ボール数　配列の数でカウント
