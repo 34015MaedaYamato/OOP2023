@@ -7,9 +7,6 @@ using System.Windows.Forms;
 
 namespace BallApp {
     class Bar : Obj {
-        Random rnd = new Random();
-
-        private static int count; //ボール数　ボールクラスでカウント
 
         //コンストラクタ
         public Bar(double x, double y) : base(x, y, @"pic\bar.png"){
@@ -18,11 +15,11 @@ namespace BallApp {
         }
 
         //抽象クラスを継承しているので、不要なメソッドは空にする
-        public override void Move(){
+        public override void Move(PictureBox pbBar,PictureBox pbBall){
             //空のメソッドにする
         }
 
-        public void Move(Keys direction){
+        public override void Move(Keys direction){
             if (direction == Keys.Right) {
                 if(PosX <= 630) {
                     PosX += 10;

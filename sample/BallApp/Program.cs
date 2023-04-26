@@ -10,7 +10,7 @@ namespace BallApp {
     class Program:Form {
 
         Bar bar; //Barインスタンス格納用
-        PictureBox barpb;
+        PictureBox pbBar;
 
         private Timer moveTimer; //タイマー用
         //private SoccerBall soccerBall;
@@ -36,12 +36,12 @@ namespace BallApp {
 
             //Barインスタンス
             bar = new Bar(320, 550);
-            barpb = new PictureBox();
-            barpb.Image = bar.Image;
-            barpb.Location = new Point((int)bar.PosX, (int)bar.PosY);
-            barpb.Size = new Size(150, 10);
-            barpb.SizeMode = PictureBoxSizeMode.StretchImage; //画像の表示モード
-            barpb.Parent = this;
+            pbBar = new PictureBox();
+            pbBar.Image = bar.Image;
+            pbBar.Location = new Point((int)bar.PosX, (int)bar.PosY);
+            pbBar.Size = new Size(150, 10);
+            pbBar.SizeMode = PictureBoxSizeMode.StretchImage; //画像の表示モード
+            pbBar.Parent = this;
 
             moveTimer = new Timer();
             moveTimer.Interval = 10; //タイマーのインターバル
@@ -54,7 +54,7 @@ namespace BallApp {
         //キーが押された時のイベントハンドラ
         private void Program_KeyDown(object sender, KeyEventArgs e){
             bar.Move(e.KeyData);
-            barpb.Location = new Point((int)bar.PosX, (int)bar.PosY);
+            pbBar.Location = new Point((int)bar.PosX, (int)bar.PosY);
 
 
         }
@@ -90,7 +90,7 @@ namespace BallApp {
 
         private void MoveTimer_Tick(object sender, EventArgs e){
             for (int i = 0; i < balls.Count; i++) {
-                balls[i].Move(); //移動
+                balls[i].Move(pbBar,pbs[i]); //移動
                 pbs[i].Location = new Point((int)balls[i].PosX, (int)balls[i].PosY); //画像の位置
                 //this.Text = "BallGame["+(i+1)+"]"; //ボール数　配列の数でカウント
             }
