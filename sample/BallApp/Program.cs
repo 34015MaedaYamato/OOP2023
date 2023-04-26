@@ -8,6 +8,10 @@ using System.Windows.Forms;
 
 namespace BallApp {
     class Program:Form {
+
+        Bar bar; //Barインスタンス格納用
+        PictureBox barpb;
+
         private Timer moveTimer; //タイマー用
         //private SoccerBall soccerBall;
         //private TennisBall tennisBall;
@@ -23,15 +27,35 @@ namespace BallApp {
             Application.Run(new Program());
         }
         public Program(){
+            //フォーム生成
             this.Size = new Size(800, 600);
             this.BackColor = Color.Green; 
             this.Text = "BallGame";
             this.MouseClick += Program_MouseClick;
+            this.KeyDown += Program_KeyDown;
+
+            //Barインスタンス
+            bar = new Bar(320, 550);
+            barpb = new PictureBox();
+            barpb.Image = bar.Image;
+            barpb.Location = new Point((int)bar.PosX, (int)bar.PosY);
+            barpb.Size = new Size(150, 10);
+            barpb.SizeMode = PictureBoxSizeMode.StretchImage; //画像の表示モード
+            barpb.Parent = this;
 
             moveTimer = new Timer();
             moveTimer.Interval = 10; //タイマーのインターバル
             //moveTimer.Start(); //タイマースタート
             moveTimer.Tick += MoveTimer_Tick; //デリゲート登録
+
+        }
+
+
+        //キーが押された時のイベントハンドラ
+        private void Program_KeyDown(object sender, KeyEventArgs e){
+            bar.Move(e.KeyData);
+            barpb.Location = new Point((int)bar.PosX, (int)bar.PosY);
+
 
         }
 
@@ -64,8 +88,7 @@ namespace BallApp {
 
         }
 
-        private void MoveTimer_Tick(object sender, EventArgs e)
-        {
+        private void MoveTimer_Tick(object sender, EventArgs e){
             for (int i = 0; i < balls.Count; i++) {
                 balls[i].Move(); //移動
                 pbs[i].Location = new Point((int)balls[i].PosX, (int)balls[i].PosY); //画像の位置
