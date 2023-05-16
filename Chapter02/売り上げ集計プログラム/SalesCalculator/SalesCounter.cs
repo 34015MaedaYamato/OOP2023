@@ -16,13 +16,13 @@ namespace SalesCalculator {
 
         //売り上げデータを読み込み、Saleオブジェクトのリストを返す
         private static IEnumerable<Sale> ReadSales(string filePath) {
-            List<Sale> sales = new List<Sale>();            //売り上げデータを格納
-            string[] lines = File.ReadAllLines(filePath);   //ファイルからすべてのデータを読み込む
+            var sales = new List<Sale>();            //売り上げデータを格納
+            var lines = File.ReadAllLines(filePath);   //ファイルからすべてのデータを読み込む
 
             foreach (string Line in lines) {                //すべての行から一行ずつ取り出す
-                string[] items = Line.Split(',');           //区切りで項目別に分ける
+                var items = Line.Split(',');           //区切りで項目別に分ける
 
-                Sale sale = new Sale {                      //Saleインスタンス生成
+                var sale = new Sale {                      //Saleインスタンス生成
                     ShopName = items[0],
                     ProductCategory = items[1],
                     Amount = int.Parse(items[2])
@@ -35,8 +35,8 @@ namespace SalesCalculator {
 
         //店舗別売り上げを求める
         public IDictionary<string,int> GetPerStoreSales() {
-            Dictionary<string, int> dict = new Dictionary<string, int>();
-            foreach(Sale sale in _sales) {
+            var dict = new Dictionary<string, int>();
+            foreach(var sale in _sales) {
                 if (dict.ContainsKey(sale.ShopName)) {
                     dict[sale.ShopName] += sale.Amount ; //店名が既に存在する（売上加算）
                 } else {
