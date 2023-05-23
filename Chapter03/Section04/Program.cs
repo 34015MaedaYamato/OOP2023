@@ -7,6 +7,14 @@ using System.Threading.Tasks;
 namespace Section04 {
     class Program {
         static void Main(string[] args) {
+            var names = new List<string> {
+               "Tokyo", "New Delhi", "Bangkok", "London", "Paris", "Berlin", "Canberra", "Hong Kong",
+            };
+
+            IEnumerable<string> query = names.Where(s => s.Length <= 5);
+            foreach (var s in query) {
+                Console.WriteLine(s);
+            }
         }
     }
 }
