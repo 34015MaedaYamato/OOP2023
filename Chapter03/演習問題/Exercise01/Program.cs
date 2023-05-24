@@ -39,14 +39,14 @@ namespace Exercise01 {
         }
 
         private static void Exercise1_3(List<int> numbers) {
-            IEnumerable<int> query = numbers.Where(s => s >= 50);
+            var query = numbers.Where(s => s >= 50);
             foreach (var s in query) {
                 Console.WriteLine(s);
             }
         }
 
         private static void Exercise1_4(List<int> numbers) {
-            IEnumerable<int> query = numbers.Select(s => s * 2);
+            var query = numbers.Select(s => s * 2);
             foreach (var s in query) {
                 Console.WriteLine(s);
             }
