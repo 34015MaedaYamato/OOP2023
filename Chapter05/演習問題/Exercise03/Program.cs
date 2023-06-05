@@ -26,13 +26,16 @@ namespace Exercise03 {
         }
 
         private static void Exercise3_1(string text) {
-            int cnt = 0;
-            foreach (var str in text) {
-                if(str == ' ') {
-                    cnt++;
-                }
-            }
+            int cnt = text.Count(c => c == ' ');
             Console.WriteLine(cnt);
+
+            //int cnt = 0;
+            //foreach (var str in text) {
+            //    if(str == ' ') {
+            //        cnt++;
+            //    }
+            //}
+            //Console.WriteLine(cnt);
         }
 
         private static void Exercise3_2(string text) {
@@ -41,13 +44,21 @@ namespace Exercise03 {
         }
 
         private static void Exercise3_3(string text) {
-            int cnt = 0;
-            foreach (var str in text) {
-                if (str == ' ') {
-                    cnt++;
-                }
-            }
-            Console.WriteLine(cnt+1);
+            String[] words = text.Split(' ');
+            Console.WriteLine(words.Length);
+
+            //int cnt = 0;
+            //foreach (var str in text) {
+            //    if (str == ' ') {
+            //        cnt++;
+            //    }
+            //}
+            //Console.WriteLine(cnt+1);
+
+
+            //解説
+            //int count = text.Split(' ').Length;
+            //Console.WriteLine(count);
         }
 
         private static void Exercise3_4(string text) {
@@ -57,11 +68,17 @@ namespace Exercise03 {
                     Console.WriteLine(word);
                 }
             }
+
+            //解説
+            //var words = text.Split(' ').Where(word => word.Length <= 4);
+            //foreach (var word in words)
+            //    Console.WriteLine(word);   
+            
         }
 
         private static void Exercise3_5(string text) {
             var sb = new StringBuilder();
-            var words = text.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            var words = text.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries); 
             foreach (var word in words) {
                 if (Array.IndexOf(words, word) != words.Length - 1) {
                     sb.Append(word + ' ');
@@ -71,6 +88,18 @@ namespace Exercise03 {
             }
             var Newtext = sb.ToString();
             Console.WriteLine(Newtext);
+
+            //解説
+            //if(Array.Length > 0) {
+            //  text.Split(' ').ToArray();
+            //  var sb = new StringBuilder(array[0]);
+            //  foreach(var word in array.Skip(1)){
+            //      sb.Append(' ');
+            //      sb.Append(word);
+            //  }
+            //  var Newtext = sb.ToString();
+            //  Console.WriteLine(Newtext);
+            //}
         }
     }
 }
