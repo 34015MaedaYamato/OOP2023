@@ -42,19 +42,28 @@ namespace Exercise02 {
         }
 
         private static void Exercise2_1(List<Book> books) {
-            throw new NotImplementedException();
+            var book = books.Where(n => n.Title == "ワンダフル・C#ライフ");
+            foreach (var item in book) {
+                Console.WriteLine("{0} {1}",item.Price,item.Pages);
+            }
+            
         }
 
         private static void Exercise2_2(List<Book> books) {
-            throw new NotImplementedException();
+            var book = books.Count(n => n.Title.Contains("C#"));
+            Console.WriteLine(book);
         }
 
         private static void Exercise2_3(List<Book> books) {
-            throw new NotImplementedException();
+            var book = books.Where(n => n.Title.Contains("C#")).Average(n => n.Pages);
+            Console.WriteLine(book);
         }
 
         private static void Exercise2_4(List<Book> books) {
-            throw new NotImplementedException();
+            var book = books.FirstOrDefault(n=> n.Price>=4000);
+            if(book != null) {
+                Console.WriteLine("{0} {1}", book.Price, book.Pages);
+            }
         }
 
         private static void Exercise2_5(List<Book> books) {
