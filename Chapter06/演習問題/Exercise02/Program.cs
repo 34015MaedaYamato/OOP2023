@@ -67,15 +67,22 @@ namespace Exercise02 {
         }
 
         private static void Exercise2_5(List<Book> books) {
-            throw new NotImplementedException();
+            var book = books.Where(n => n.Price < 4000).Max(n=> n.Pages);
+            Console.WriteLine(book);
         }
 
         private static void Exercise2_6(List<Book> books) {
-            throw new NotImplementedException();
+            var book = books.Where(n => n.Pages >= 400).OrderByDescending(n => n.Price);
+            foreach (var item in book) {
+                Console.WriteLine("{0}：{1}円",item.Title,item.Price);
+            }
         }
 
         private static void Exercise2_7(List<Book> books) {
-            throw new NotImplementedException();
+            var book = books.Where(n => n.Title.Contains("C#") && n.Pages >= 500);
+            foreach (var item in book) {
+                Console.WriteLine(item.Title);
+            }
         }
     }
 
