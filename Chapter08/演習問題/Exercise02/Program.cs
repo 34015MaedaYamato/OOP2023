@@ -9,9 +9,14 @@ namespace Exercise02 {
         static void Main(string[] args) {
             var dateTime = DateTime.Now;
             //var dateTime = new DateTime(2023,6,18);
-            Console.WriteLine(NextWeekDay(dateTime, DayOfWeek.Saturday));
+            DayOfWeek[] Week = { DayOfWeek.Sunday,DayOfWeek.Monday,DayOfWeek.Tuesday,DayOfWeek.Wednesday,DayOfWeek.Thursday,DayOfWeek.Friday,DayOfWeek.Saturday };
+            
+            for (int i = 0; i < Week.Length; i++) {
+                Console.WriteLine("{0}の次の{1}です。",dateTime.ToString("D"),NextWeekDay(dateTime,Week[i]).ToString("ddd曜日は、yyyy年M月d日"));
+            }
+ 
         }
-        public static DateTime NextWeekDay(DateTime date,DayOfWeek dayOfWeek) {
+        public static DateTime NextWeekDay(DateTime date, DayOfWeek dayOfWeek) {
             var days = (int)dayOfWeek - (int)(date.DayOfWeek);
             if (days <= 6) {
                 days += 7;
