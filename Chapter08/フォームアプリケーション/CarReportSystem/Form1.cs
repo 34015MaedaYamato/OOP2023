@@ -19,7 +19,23 @@ namespace CarReportSystem {
             dgvCarReports.DataSource = CarReports;
         }
 
+        //ステータスラベルのテキスト表示・非表示（引数なしはメッセージ非表示）
+        private void stasLabelDisp(string msg = "") {
+            //MessageBox.Show(msg);
+            tsInfoText.Text = msg;
+        }
+        
+        //追加ボタン
         private void btAddReport_Click(object sender, EventArgs e) {
+            stasLabelDisp();
+            if (WriterName.Text == "") {
+                stasLabelDisp("記録者を入力してください");
+                return;
+            }else if(CarName.Text == ""){
+                stasLabelDisp("車名を入力してください");
+                return;
+            }
+
             CarReport NewRepo = new CarReport();
             NewRepo.Date = dtpDate.Value;
             NewRepo.Auther = WriterName.Text;
@@ -29,12 +45,19 @@ namespace CarReportSystem {
             NewRepo.CarImage = pbCarImage.Image;
 
             CarReports.Add(NewRepo);
+            btAddReport.Enabled = true;
         }
 
-
+        //削除ボタン
         private void btDleReport_Click(object sender, EventArgs e) {
             CarReports.RemoveAt(dgvCarReports.CurrentRow.Index);
         }
+
+        //修正ボタン
+        private void btUpDateReport_Click(object sender, EventArgs e) {
+
+        }
+
 
         private CarReport.MakerGroup getSelectedMaker() {
             foreach (var item in MakerGroup.Controls) {
@@ -86,19 +109,26 @@ namespace CarReportSystem {
 
         }
 
-            private void OpenImage_Click(object sender, EventArgs e) {
+        private void Form1_Load(object sender, EventArgs e) {
+            dgvCarReports.Columns[5].Visible = false; //画像項目非表示
+            //btUpDateReport.Enabled = false;
+            //btDleReport.Enabled = false;
+        }
+
+        //画像開くボタン
+        private void OpenImage_Click(object sender, EventArgs e) {
             ofdImageFileOpen.ShowDialog();
             pbCarImage.Image = Image.FromFile(ofdImageFileOpen.FileName);
         }
 
-        private void Form1_Load(object sender, EventArgs e) {
-            dgvCarReports.Columns[5].Visible = false; //画像項目非表示
-        }
+        
 
+        //画像削除ボタン
         private void DeleteImage_Click(object sender, EventArgs e) {
             pbCarImage.Image = null;
         }
 
+        //レポート選択
         private void dgvCarReports_Click(object sender, EventArgs e) {
             dtpDate.Value = (DateTime)dgvCarReports.CurrentRow.Cells[0].Value;
             WriterName.Text = dgvCarReports.CurrentRow.Cells[1].Value.ToString();
@@ -108,8 +138,9 @@ namespace CarReportSystem {
             pbCarImage.Image = (Image)dgvCarReports.CurrentRow.Cells[5].Value;
         }
 
-        private void btUpDateReport_Click(object sender, EventArgs e) {
-
+        private void バージョン情報ToolStripMenuItem_Click(object sender, EventArgs e) {
+            var vf = new VersionForm();
+            vf.ShowDialog();
         }
     }
 }
