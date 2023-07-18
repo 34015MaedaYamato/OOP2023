@@ -45,7 +45,41 @@ namespace CarReportSystem {
             NewRepo.CarImage = pbCarImage.Image;
 
             CarReports.Add(NewRepo);
-            btAddReport.Enabled = true;
+
+            /*if (WriterName.Items.Contains(WriterName.Text)) {
+                WriterName.Items.Add(WriterName.Text);
+            }*/
+            setWriterName(WriterName.Text);
+            setCarName(CarName.Text);
+
+            editItemsClear();
+        }
+
+        //記録者コンボボックス
+        private void setWriterName(string Name) {
+            if (!WriterName.Items.Contains(Name)) {
+                WriterName.Items.Add(Name);
+            }
+        }
+        //車名コンボボックス
+        private void setCarName(string Name) {
+            if (!CarName.Items.Contains(Name)) {
+                CarName.Items.Add(Name);
+            }
+        }
+
+
+        //項目クリア
+        private void editItemsClear() {
+            WriterName.Text = "";
+            setSelectedMaker(CarReport.MakerGroup.トヨタ);
+            CarName.Text = "";
+            ReportBox.Text = "";
+            pbCarImage.Image = null;
+
+            dgvCarReports.ClearSelection();     //選択解除
+            btUpDateReport.Enabled = false;
+            btDleReport.Enabled = false;
         }
 
         //削除ボタン
@@ -55,10 +89,17 @@ namespace CarReportSystem {
 
         //修正ボタン
         private void btUpDateReport_Click(object sender, EventArgs e) {
-
+            if (dgvCarReports.Rows.Count != 0) {
+                CarReports[dgvCarReports.CurrentRow.Index].Date = dtpDate.Value;
+                CarReports[dgvCarReports.CurrentRow.Index].Auther = WriterName.Text;
+                CarReports[dgvCarReports.CurrentRow.Index].Maker = getSelectedMaker();
+                CarReports[dgvCarReports.CurrentRow.Index].CarName = CarName.Text;
+                CarReports[dgvCarReports.CurrentRow.Index].Report = ReportBox.Text;
+                dgvCarReports.Refresh();    //一覧更新
+            }
         }
 
-
+        //ラジオボタンで選択されているメーカーを返す
         private CarReport.MakerGroup getSelectedMaker() {
             foreach (var item in MakerGroup.Controls) {
                 if (((RadioButton)item).Checked) {
@@ -85,25 +126,32 @@ namespace CarReportSystem {
             return CarReport.MakerGroup.その他;*/
         }
 
+        //指定したメーカーのラジオボタンをセット
         private void setSelectedMaker(CarReport.MakerGroup makerGroup) {
             switch (makerGroup) {
                 case CarReport.MakerGroup.トヨタ:
+                rbToyota.Checked = true;
                 break;
                 case CarReport.MakerGroup.日産:
+                rbNissan.Checked = true;
                 break;
                 case CarReport.MakerGroup.ホンダ:
+                rbHonda.Checked = true;
                 break;
                 case CarReport.MakerGroup.スバル:
+                rbSubaru.Checked = true;
                 break;
                 case CarReport.MakerGroup.スズキ:
+                rbSuzuki.Checked = true;
                 break;
                 case CarReport.MakerGroup.ダイハツ:
+                rbDaihatsu.Checked = true;
                 break;
                 case CarReport.MakerGroup.輸入車:
+                rbImported.Checked = true;
                 break;
                 case CarReport.MakerGroup.その他:
-                break;
-                default:
+                rbOther.Checked = true;
                 break;
             }
 
@@ -111,8 +159,8 @@ namespace CarReportSystem {
 
         private void Form1_Load(object sender, EventArgs e) {
             dgvCarReports.Columns[5].Visible = false; //画像項目非表示
-            //btUpDateReport.Enabled = false;
-            //btDleReport.Enabled = false;
+            btUpDateReport.Enabled = false;
+            btDleReport.Enabled = false;
         }
 
         //画像開くボタン
@@ -136,11 +184,20 @@ namespace CarReportSystem {
             CarName.Text = dgvCarReports.CurrentRow.Cells[3].Value.ToString();
             ReportBox.Text = dgvCarReports.CurrentRow.Cells[4].Value.ToString();
             pbCarImage.Image = (Image)dgvCarReports.CurrentRow.Cells[5].Value;
+
+            btUpDateReport.Enabled = false;
+            btDleReport.Enabled = false;
         }
 
         private void バージョン情報ToolStripMenuItem_Click(object sender, EventArgs e) {
             var vf = new VersionForm();
             vf.ShowDialog();
+        }
+
+        private void 色設定ToolStripMenuItem_Click(object sender, EventArgs e) {
+            if(ColorDialog.ShowDialog() == DialogResult.OK) {
+                BackColor = ColorDialog.Color;
+            } 
         }
     }
 }
