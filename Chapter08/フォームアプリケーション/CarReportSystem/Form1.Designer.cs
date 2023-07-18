@@ -62,6 +62,7 @@ namespace CarReportSystem {
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tsInfoText = new System.Windows.Forms.ToolStripStatusLabel();
             this.ColorDialog = new System.Windows.Forms.ColorDialog();
+            this.ImageResize = new System.Windows.Forms.Button();
             this.MakerGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCarReports)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbCarImage)).BeginInit();
@@ -263,7 +264,7 @@ namespace CarReportSystem {
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(382, 29);
+            this.label7.Location = new System.Drawing.Point(382, 36);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(35, 12);
             this.label7.TabIndex = 11;
@@ -273,7 +274,7 @@ namespace CarReportSystem {
             // 
             this.OpenImage.Location = new System.Drawing.Point(423, 24);
             this.OpenImage.Name = "OpenImage";
-            this.OpenImage.Size = new System.Drawing.Size(74, 19);
+            this.OpenImage.Size = new System.Drawing.Size(59, 37);
             this.OpenImage.TabIndex = 12;
             this.OpenImage.Text = "開く";
             this.OpenImage.UseVisualStyleBackColor = true;
@@ -281,9 +282,9 @@ namespace CarReportSystem {
             // 
             // DeleteImage
             // 
-            this.DeleteImage.Location = new System.Drawing.Point(505, 23);
+            this.DeleteImage.Location = new System.Drawing.Point(488, 24);
             this.DeleteImage.Name = "DeleteImage";
-            this.DeleteImage.Size = new System.Drawing.Size(87, 20);
+            this.DeleteImage.Size = new System.Drawing.Size(59, 38);
             this.DeleteImage.TabIndex = 13;
             this.DeleteImage.Text = "削除";
             this.DeleteImage.UseVisualStyleBackColor = true;
@@ -306,7 +307,7 @@ namespace CarReportSystem {
             // pbCarImage
             // 
             this.pbCarImage.BackColor = System.Drawing.Color.White;
-            this.pbCarImage.Location = new System.Drawing.Point(386, 67);
+            this.pbCarImage.Location = new System.Drawing.Point(386, 78);
             this.pbCarImage.Name = "pbCarImage";
             this.pbCarImage.Size = new System.Drawing.Size(206, 174);
             this.pbCarImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -385,7 +386,7 @@ namespace CarReportSystem {
             // 色設定ToolStripMenuItem
             // 
             this.色設定ToolStripMenuItem.Name = "色設定ToolStripMenuItem";
-            this.色設定ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.色設定ToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
             this.色設定ToolStripMenuItem.Text = "色設定";
             this.色設定ToolStripMenuItem.Click += new System.EventHandler(this.色設定ToolStripMenuItem_Click);
             // 
@@ -425,12 +426,23 @@ namespace CarReportSystem {
             this.tsInfoText.Size = new System.Drawing.Size(118, 17);
             this.tsInfoText.Text = "toolStripStatusLabel1";
             // 
+            // ImageResize
+            // 
+            this.ImageResize.Location = new System.Drawing.Point(552, 24);
+            this.ImageResize.Name = "ImageResize";
+            this.ImageResize.Size = new System.Drawing.Size(71, 37);
+            this.ImageResize.TabIndex = 21;
+            this.ImageResize.Text = "サイズ変更";
+            this.ImageResize.UseVisualStyleBackColor = true;
+            this.ImageResize.Click += new System.EventHandler(this.ImageResize_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.ClientSize = new System.Drawing.Size(623, 565);
+            this.Controls.Add(this.ImageResize);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.btDleReport);
             this.Controls.Add(this.btUpDateReport);
@@ -510,6 +522,7 @@ namespace CarReportSystem {
         private System.Windows.Forms.ToolStripMenuItem ヘルプHToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem バージョン情報ToolStripMenuItem;
         private System.Windows.Forms.ColorDialog ColorDialog;
+        private System.Windows.Forms.Button ImageResize;
     }
 }
 

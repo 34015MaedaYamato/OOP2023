@@ -12,6 +12,7 @@ namespace CarReportSystem {
     public partial class Form1 : Form {
         //管理データ
         BindingList<CarReport> CarReports = new BindingList<CarReport>();
+        int mode = 0;
 
 
         public Form1() {
@@ -165,8 +166,9 @@ namespace CarReportSystem {
 
         //画像開くボタン
         private void OpenImage_Click(object sender, EventArgs e) {
-            ofdImageFileOpen.ShowDialog();
-            pbCarImage.Image = Image.FromFile(ofdImageFileOpen.FileName);
+            if (ofdImageFileOpen.ShowDialog() == DialogResult.OK) {
+                pbCarImage.Image = Image.FromFile(ofdImageFileOpen.FileName);
+            }
         }
 
         
@@ -198,6 +200,13 @@ namespace CarReportSystem {
             if(ColorDialog.ShowDialog() == DialogResult.OK) {
                 BackColor = ColorDialog.Color;
             } 
+        }
+
+        private void ImageResize_Click(object sender, EventArgs e) {
+
+            mode = mode < 4 ? ++mode : 0; 
+            pbCarImage.SizeMode = (PictureBoxSizeMode)mode;
+            
         }
     }
 }
