@@ -7,17 +7,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace CarReportSystem {
     public partial class Form1 : Form {
         //管理データ
         BindingList<CarReport> CarReports = new BindingList<CarReport>();
-        int mode = 0;
+        PictureBoxSizeMode mode = 0;
+
+        //設定保存用
+        Settings settings = new Settings {
+            MainFormColor = DefaultBackColor.ToArgb()
+        };
 
 
         public Form1() {
             InitializeComponent();
             dgvCarReports.DataSource = CarReports;
+            
         }
 
         //ステータスラベルのテキスト表示・非表示（引数なしはメッセージ非表示）
@@ -162,6 +170,13 @@ namespace CarReportSystem {
             dgvCarReports.Columns[5].Visible = false; //画像項目非表示
             btUpDateReport.Enabled = false;
             btDleReport.Enabled = false;
+            //設定ファイルをシリアル化して背景を設定
+            
+            using (var reader = XmlReader.Create("settings.xml")) {
+                var serializer = new XmlSerializer(typeof(Settings));
+                settings = serializer.Deserialize(reader) as Settings;
+                BackColor = Color.FromArgb(settings.MainFormColor);
+            }
         }
 
         //画像開くボタン
@@ -180,15 +195,17 @@ namespace CarReportSystem {
 
         //レポート選択
         private void dgvCarReports_Click(object sender, EventArgs e) {
-            dtpDate.Value = (DateTime)dgvCarReports.CurrentRow.Cells[0].Value;
-            WriterName.Text = dgvCarReports.CurrentRow.Cells[1].Value.ToString();
-            setSelectedMaker((CarReport.MakerGroup)dgvCarReports.CurrentRow.Cells[2].Value);
-            CarName.Text = dgvCarReports.CurrentRow.Cells[3].Value.ToString();
-            ReportBox.Text = dgvCarReports.CurrentRow.Cells[4].Value.ToString();
-            pbCarImage.Image = (Image)dgvCarReports.CurrentRow.Cells[5].Value;
+            if (dgvCarReports.Rows.Count != 0) {
+                dtpDate.Value = (DateTime)dgvCarReports.CurrentRow.Cells[0].Value;
+                WriterName.Text = dgvCarReports.CurrentRow.Cells[1].Value.ToString();
+                setSelectedMaker((CarReport.MakerGroup)dgvCarReports.CurrentRow.Cells[2].Value);
+                CarName.Text = dgvCarReports.CurrentRow.Cells[3].Value.ToString();
+                ReportBox.Text = dgvCarReports.CurrentRow.Cells[4].Value.ToString();
+                pbCarImage.Image = (Image)dgvCarReports.CurrentRow.Cells[5].Value;
 
-            btUpDateReport.Enabled = false;
-            btDleReport.Enabled = false;
+                btUpDateReport.Enabled = true;
+                btDleReport.Enabled = true;
+            }
         }
 
         private void バージョン情報ToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -199,14 +216,27 @@ namespace CarReportSystem {
         private void 色設定ToolStripMenuItem_Click(object sender, EventArgs e) {
             if(ColorDialog.ShowDialog() == DialogResult.OK) {
                 BackColor = ColorDialog.Color;
+                settings.MainFormColor = ColorDialog.Color.ToArgb();
             } 
         }
 
         private void ImageResize_Click(object sender, EventArgs e) {
-
-            mode = mode < 4 ? ++mode : 0; 
-            pbCarImage.SizeMode = (PictureBoxSizeMode)mode;
+            //mode = mode < 4 ? ((mode == 1) ? 3: ++mode) : 0;
+            pbCarImage.SizeMode = mode < PictureBoxSizeMode.Zoom ? ((mode == PictureBoxSizeMode.StretchImage) ? PictureBoxSizeMode.CenterImage : ++mode)//AutoSize(2)を除外
+                                  : PictureBoxSizeMode.Normal;
             
+        }
+
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e) {
+            //設定ファイルのシリアル化
+            using(var Writer = XmlWriter.Create("settings.xml")) {
+                var serializer = new XmlSerializer(settings.GetType());
+                serializer.Serialize(Writer, settings);
+            }
+        }
+
+        private void 終了ToolStripMenuItem_Click(object sender, EventArgs e) {
+            Application.Exit();
         }
     }
 }
