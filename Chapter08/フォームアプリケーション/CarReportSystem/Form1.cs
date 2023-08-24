@@ -250,6 +250,12 @@ namespace CarReportSystem {
             tsTimeDisp.Text = DateTime.Now.ToString("HH時mm分ss秒");
         }
 
-        
+        private void toolStripMenuItem1_Click(object sender, EventArgs e) {
+            //if(ofdCarRepoOpen.)
+        }
+
+        private void 保存ToolStripMenuItem_Click(object sender, EventArgs e) {
+
+        }
     }
 }
