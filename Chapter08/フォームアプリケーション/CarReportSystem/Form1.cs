@@ -167,6 +167,13 @@ namespace CarReportSystem {
         }
 
         private void Form1_Load(object sender, EventArgs e) {
+
+            tsInfoText.Text = ""; //表示領域のテキストを初期化
+            tsTimeDisp.Text = DateTime.Now.ToString("HH時mm分ss秒");
+            tsTimeDisp.BackColor = Color.Black;
+            tsTimeDisp.ForeColor = Color.White;
+            TimeUpdate.Start();　//時刻更新用のタイマー
+
             dgvCarReports.Columns[5].Visible = false; //画像項目非表示
             btUpDateReport.Enabled = false;
             btDleReport.Enabled = false;
@@ -238,5 +245,11 @@ namespace CarReportSystem {
         private void 終了ToolStripMenuItem_Click(object sender, EventArgs e) {
             Application.Exit();
         }
+
+        private void TimeUpdate_Tick(object sender, EventArgs e) {
+            tsTimeDisp.Text = DateTime.Now.ToString("HH時mm分ss秒");
+        }
+
+        
     }
 }
