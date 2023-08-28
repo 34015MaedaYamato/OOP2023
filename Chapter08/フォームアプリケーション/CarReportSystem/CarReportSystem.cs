@@ -6,13 +6,19 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace CarReportSystem {
-    class CarReport {
-        [System.ComponentModel.DisplayName]
+    [Serializable]
+    public class CarReport {
+        [System.ComponentModel.DisplayName("日付")]
         public DateTime Date { get; set; } //日付
-        public string Auther { get; set; } //記録者
+        [System.ComponentModel.DisplayName("記録者")]
+        public string Author { get; set; } //記録者
+        [System.ComponentModel.DisplayName("メーカー")]
         public MakerGroup Maker { get; set; } //メーカー
+        [System.ComponentModel.DisplayName("車名")]
         public string CarName { get; set; } //車名
+        [System.ComponentModel.DisplayName("レポート")]
         public string Report { get; set; } //レポート
+        [System.ComponentModel.DisplayName("画像")]
         public Image CarImage { get; set; } //画像
 
 

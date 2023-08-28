@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -16,6 +18,7 @@ namespace CarReportSystem {
         BindingList<CarReport> CarReports = new BindingList<CarReport>();
         PictureBoxSizeMode mode = 0;
 
+
         //設定保存用
         Settings settings = new Settings {
             MainFormColor = DefaultBackColor.ToArgb()
@@ -25,13 +28,14 @@ namespace CarReportSystem {
         public Form1() {
             InitializeComponent();
             dgvCarReports.DataSource = CarReports;
-            
+            stasLabelDisp(); //ステータスラベル初期化
+
         }
 
         //ステータスラベルのテキスト表示・非表示（引数なしはメッセージ非表示）
         private void stasLabelDisp(string msg = "") {
             //MessageBox.Show(msg);
-            tsInfoText.Text = msg;
+            tsInfo.Text = msg;
         }
         
         //追加ボタン
@@ -47,7 +51,7 @@ namespace CarReportSystem {
 
             CarReport NewRepo = new CarReport();
             NewRepo.Date = dtpDate.Value;
-            NewRepo.Auther = WriterName.Text;
+            NewRepo.Author = WriterName.Text;
             NewRepo.Maker = getSelectedMaker();
             NewRepo.CarName = CarName.Text;
             NewRepo.Report = ReportBox.Text;
@@ -64,13 +68,13 @@ namespace CarReportSystem {
             editItemsClear();
         }
 
-        //記録者コンボボックス
+        //記録者コンボボックス 履歴登録
         private void setWriterName(string Name) {
             if (!WriterName.Items.Contains(Name)) {
                 WriterName.Items.Add(Name);
             }
         }
-        //車名コンボボックス
+        //車名コンボボックス　履歴登録
         private void setCarName(string Name) {
             if (!CarName.Items.Contains(Name)) {
                 CarName.Items.Add(Name);
@@ -100,7 +104,7 @@ namespace CarReportSystem {
         private void btUpDateReport_Click(object sender, EventArgs e) {
             if (dgvCarReports.Rows.Count != 0) {
                 CarReports[dgvCarReports.CurrentRow.Index].Date = dtpDate.Value;
-                CarReports[dgvCarReports.CurrentRow.Index].Auther = WriterName.Text;
+                CarReports[dgvCarReports.CurrentRow.Index].Author = WriterName.Text;
                 CarReports[dgvCarReports.CurrentRow.Index].Maker = getSelectedMaker();
                 CarReports[dgvCarReports.CurrentRow.Index].CarName = CarName.Text;
                 CarReports[dgvCarReports.CurrentRow.Index].Report = ReportBox.Text;
@@ -169,7 +173,7 @@ namespace CarReportSystem {
         private void Form1_Load(object sender, EventArgs e) {
 
             tsInfoText.Text = ""; //表示領域のテキストを初期化
-            tsTimeDisp.Text = DateTime.Now.ToString("HH時mm分ss秒");
+            tsTimeDisp.Text = DateTime.Now.ToString("yyyy年MM月dd日HH時mm分ss秒");
             tsTimeDisp.BackColor = Color.Black;
             tsTimeDisp.ForeColor = Color.White;
             TimeUpdate.Start();　//時刻更新用のタイマー
@@ -177,13 +181,18 @@ namespace CarReportSystem {
             dgvCarReports.Columns[5].Visible = false; //画像項目非表示
             btUpDateReport.Enabled = false;
             btDleReport.Enabled = false;
-            //設定ファイルをシリアル化して背景を設定
             
-            using (var reader = XmlReader.Create("settings.xml")) {
+            try {
+                //設定ファイルを逆シリアル化して背景を設定
+                using (var reader = XmlReader.Create("settings.xml")) {
                 var serializer = new XmlSerializer(typeof(Settings));
                 settings = serializer.Deserialize(reader) as Settings;
                 BackColor = Color.FromArgb(settings.MainFormColor);
+                }
+            } catch (Exception ex) {
+                MessageBox.Show(ex.Message+":設定ファイル読み込みエラー");
             }
+            
         }
 
         //画像開くボタン
@@ -247,15 +256,54 @@ namespace CarReportSystem {
         }
 
         private void TimeUpdate_Tick(object sender, EventArgs e) {
-            tsTimeDisp.Text = DateTime.Now.ToString("HH時mm分ss秒");
+            tsTimeDisp.Text = DateTime.Now.ToString("yyyy年MM月dd日HH時mm分ss秒");
         }
 
-        private void toolStripMenuItem1_Click(object sender, EventArgs e) {
-            //if(ofdCarRepoOpen.)
-        }
+        
 
         private void 保存ToolStripMenuItem_Click(object sender, EventArgs e) {
-
+            if(sfdCarRepoSave.ShowDialog() == DialogResult.OK) {
+                try {
+                    //バイナリ形式でシリアル化
+                    var bf = new BinaryFormatter();
+                    using (FileStream fs = File.Open(sfdCarRepoSave.FileName, FileMode.Create)) {
+                    bf.Serialize(fs, CarReports);
+                    }
+                }catch(Exception ex) {
+                    MessageBox.Show(ex.Message);
+                }
+                
+            }
         }
+
+        private void 開くToolStripMenuItem1_Click(object sender, EventArgs e) {
+            if (ofdCarRepoOpen.ShowDialog() == DialogResult.OK) {
+                try {
+                    //逆シリアル化でバイナリ形式を取り込む
+                    var bf = new BinaryFormatter();
+                    using(FileStream fs = File.Open(ofdCarRepoOpen.FileName, FileMode.Open,FileAccess.Read)) {
+                        CarReports = (BindingList<CarReport>)bf.Deserialize(fs);
+                        dgvCarReports.DataSource = null;
+                        dgvCarReports.DataSource = CarReports;
+
+                        foreach (var carReport in CarReports) {
+                            setWriterName(carReport.Author);
+                            setCarName(carReport.CarName);
+                        }
+                        //または、
+                        /*foreach (var author in CarReports.Select(p => p.Author)) {
+                            setWriterName(author);
+                        }
+                        foreach (var report in CarReports.Select(p => p.Report)) {
+                            setCarName(report);
+                        }*/
+
+                    }
+                } catch (Exception ex) {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+        }
+
     }
 }
