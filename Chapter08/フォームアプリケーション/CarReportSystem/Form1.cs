@@ -178,6 +178,9 @@ namespace CarReportSystem {
             tsTimeDisp.ForeColor = Color.White;
             TimeUpdate.Start();　//時刻更新用のタイマー
 
+            dgvCarReports.RowsDefaultCellStyle.BackColor = Color.AliceBlue;
+            dgvCarReports.AlternatingRowsDefaultCellStyle.BackColor = Color.FloralWhite;
+
             dgvCarReports.Columns[5].Visible = false; //画像項目非表示
             btUpDateReport.Enabled = false;
             btDleReport.Enabled = false;
@@ -219,8 +222,8 @@ namespace CarReportSystem {
                 ReportBox.Text = dgvCarReports.CurrentRow.Cells[4].Value.ToString();
                 pbCarImage.Image = (Image)dgvCarReports.CurrentRow.Cells[5].Value;
 
-                btUpDateReport.Enabled = true;
-                btDleReport.Enabled = true;
+                btUpDateReport.Enabled = true; //修正ボタン有効
+                btDleReport.Enabled = true;　//削除ボタン有効
             }
         }
 
@@ -238,9 +241,21 @@ namespace CarReportSystem {
 
         private void ImageResize_Click(object sender, EventArgs e) {
             //mode = mode < 4 ? ((mode == 1) ? 3: ++mode) : 0;
-            pbCarImage.SizeMode = mode < PictureBoxSizeMode.Zoom ? ((mode == PictureBoxSizeMode.StretchImage) ? PictureBoxSizeMode.CenterImage : ++mode)//AutoSize(2)を除外
-                                  : PictureBoxSizeMode.Normal;
-            
+            /*pbCarImage.SizeMode = mode < PictureBoxSizeMode.Zoom ? ((mode == PictureBoxSizeMode.StretchImage) ? PictureBoxSizeMode.CenterImage : ++mode)//AutoSize(2)を除外
+                                  : PictureBoxSizeMode.Normal;*/
+
+            if (mode < PictureBoxSizeMode.Zoom) {
+                if (mode == PictureBoxSizeMode.StretchImage) {
+                    mode = PictureBoxSizeMode.CenterImage;
+                } else {
+                    ++mode;
+                }
+            } else {
+                mode = PictureBoxSizeMode.Normal;
+            }
+
+            pbCarImage.SizeMode = mode;
+
         }
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e) {
@@ -285,6 +300,10 @@ namespace CarReportSystem {
                         CarReports = (BindingList<CarReport>)bf.Deserialize(fs);
                         dgvCarReports.DataSource = null;
                         dgvCarReports.DataSource = CarReports;
+
+                        editItemsClear();//入力途中などのデータはすべてクリア
+
+                        dgvCarReports.Columns[5].Visible = false;   //画像項目非表示
 
                         foreach (var carReport in CarReports) {
                             setWriterName(carReport.Author);
