@@ -178,8 +178,8 @@ namespace CarReportSystem {
             tsTimeDisp.ForeColor = Color.White;
             TimeUpdate.Start();　//時刻更新用のタイマー
 
-            dgvCarReports.RowsDefaultCellStyle.BackColor = Color.AliceBlue;
-            dgvCarReports.AlternatingRowsDefaultCellStyle.BackColor = Color.FloralWhite;
+            dgvCarReports.RowsDefaultCellStyle.BackColor = Color.AliceBlue; //全体の背景を設定
+            dgvCarReports.AlternatingRowsDefaultCellStyle.BackColor = Color.FloralWhite; //奇数業の背景を上書き
 
             dgvCarReports.Columns[5].Visible = false; //画像項目非表示
             btUpDateReport.Enabled = false;
@@ -214,6 +214,19 @@ namespace CarReportSystem {
 
         //レポート選択
         private void dgvCarReports_Click(object sender, EventArgs e) {
+           /* if (dgvCarReports.Rows.Count != 0) {
+                dtpDate.Value = (DateTime)dgvCarReports.CurrentRow.Cells[0].Value;
+                WriterName.Text = dgvCarReports.CurrentRow.Cells[1].Value.ToString();
+                setSelectedMaker((CarReport.MakerGroup)dgvCarReports.CurrentRow.Cells[2].Value);
+                CarName.Text = dgvCarReports.CurrentRow.Cells[3].Value.ToString();
+                ReportBox.Text = dgvCarReports.CurrentRow.Cells[4].Value.ToString();
+                pbCarImage.Image = (Image)dgvCarReports.CurrentRow.Cells[5].Value;
+
+                btUpDateReport.Enabled = true; //修正ボタン有効
+                btDleReport.Enabled = true;　//削除ボタン有効
+            }*/
+        }
+        private void dgvCarReports_CellClick(object sender, DataGridViewCellEventArgs e) {
             if (dgvCarReports.Rows.Count != 0) {
                 dtpDate.Value = (DateTime)dgvCarReports.CurrentRow.Cells[0].Value;
                 WriterName.Text = dgvCarReports.CurrentRow.Cells[1].Value.ToString();
@@ -323,6 +336,5 @@ namespace CarReportSystem {
                 }
             }
         }
-
     }
 }
