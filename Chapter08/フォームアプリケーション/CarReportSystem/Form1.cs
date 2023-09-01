@@ -336,5 +336,10 @@ namespace CarReportSystem {
                 }
             }
         }
+
+        private void btConnection_Click(object sender, EventArgs e) {
+            // TODO: このコード行はデータを 'infosys202304DataSet.CarRepotTable' テーブルに読み込みます。必要に応じて移動、または削除をしてください。
+            this.carRepotTableTableAdapter.Fill(this.infosys202304DataSet.CarRepotTable);
+        }
     }
 }
