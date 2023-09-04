@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
@@ -14,7 +15,7 @@ namespace Exercise02 {
 
             Exercise2_2(novelist, "novelist.json");
             
-            //// これは確認のためのコード 12.2.1
+            //// これは確認のためのコード 12.2.1 //実行できない
             //Console.WriteLine("{0} {1}", novelist.Name, novelist.Birth);
             //foreach (var title in novelist.Masterpieces) {
             //    Console.WriteLine(title);
@@ -44,7 +45,16 @@ namespace Exercise02 {
         }
 
         private static void Exercise2_2(object novelist, string v) {
-
+            DataContractJsonSerializerSettings
+            var novelists = new novelist {
+                Name = "アーサー・C・クラーク",
+                Birth = "1917-12-16T00:00:00Z",
+                Masterpieces = ["2001年宇宙の旅","幼年期の終り"],
+            }
+            using(var stream = new FileStream(v,FileMode.Create,FileAccess.Write)) {
+                var serializer = new DataContractJsonSerializer(novelist.GetType());
+                serializer.WriteObject(stream,novelist);
+            }
         }
     }
 }
