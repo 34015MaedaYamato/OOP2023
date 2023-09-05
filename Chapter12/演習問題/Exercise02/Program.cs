@@ -13,7 +13,7 @@ namespace Exercise02 {
         static void Main(string[] args) {
             var novelist = Exercise2_1("Sample.xml");
 
-            Exercise2_2(novelist, "novelist.json");
+            //Exercise2_2(novelist, "novelist.json");
             
             //// これは確認のためのコード 12.2.1 //実行できない
             //Console.WriteLine("{0} {1}", novelist.Name, novelist.Birth);
@@ -44,7 +44,7 @@ namespace Exercise02 {
 
         }
 
-        private static void Exercise2_2(object novelist, string v) {
+        /*private static void Exercise2_2(object novelist, string v) {
             DataContractJsonSerializerSettings
             var novelists = new novelist {
                 Name = "アーサー・C・クラーク",
@@ -55,6 +55,6 @@ namespace Exercise02 {
                 var serializer = new DataContractJsonSerializer(novelist.GetType());
                 serializer.WriteObject(stream,novelist);
             }
-        }
+        }*/
     }
 }
