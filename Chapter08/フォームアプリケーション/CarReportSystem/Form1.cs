@@ -20,9 +20,10 @@ namespace CarReportSystem {
 
 
         //設定保存用
-        Settings settings = new Settings {
+        Settings settings = Settings.getInstance();
+        /*Settings settings = new Settings {
             MainFormColor = DefaultBackColor.ToArgb()
-        };
+        };*/
 
 
         public Form1() {
