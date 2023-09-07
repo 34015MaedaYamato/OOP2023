@@ -100,7 +100,7 @@ namespace Exercise01 {
         }
     }
     [DataContract]
-    public class Emploee2 {
+    public class Employee2 {
         public int Id { get; set; }
 
         [DataMember(Name = "name")]
