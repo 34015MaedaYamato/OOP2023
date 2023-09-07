@@ -72,9 +72,6 @@ namespace CarReportSystem {
             this.tsInfo = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.infosys202304DataSet = new CarReportSystem.infosys202304DataSet();
-            this.carRepotTableBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.carRepotTableTableAdapter = new CarReportSystem.infosys202304DataSetTableAdapters.CarRepotTableTableAdapter();
             this.idDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.autherDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -82,15 +79,19 @@ namespace CarReportSystem {
             this.carNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.reportDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.imageDataGridViewImageColumn = new System.Windows.Forms.DataGridViewImageColumn();
+            this.carRepotTableBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.infosys202304DataSet = new CarReportSystem.infosys202304DataSet();
+            this.carRepotTableTableAdapter = new CarReportSystem.infosys202304DataSetTableAdapters.CarRepotTableTableAdapter();
             this.btConnection = new System.Windows.Forms.Button();
+            this.tableAdapterManager = new CarReportSystem.infosys202304DataSetTableAdapters.TableAdapterManager();
             this.MakerGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCarReports)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbCarImage)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.infosys202304DataSet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.carRepotTableBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.infosys202304DataSet)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -520,20 +521,6 @@ namespace CarReportSystem {
             this.dataGridView1.Size = new System.Drawing.Size(263, 459);
             this.dataGridView1.TabIndex = 21;
             // 
-            // infosys202304DataSet
-            // 
-            this.infosys202304DataSet.DataSetName = "infosys202304DataSet";
-            this.infosys202304DataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-            // 
-            // carRepotTableBindingSource
-            // 
-            this.carRepotTableBindingSource.DataMember = "CarRepotTable";
-            this.carRepotTableBindingSource.DataSource = this.infosys202304DataSet;
-            // 
-            // carRepotTableTableAdapter
-            // 
-            this.carRepotTableTableAdapter.ClearBeforeFill = true;
-            // 
             // idDataGridViewTextBoxColumn
             // 
             this.idDataGridViewTextBoxColumn.DataPropertyName = "Id";
@@ -577,6 +564,20 @@ namespace CarReportSystem {
             this.imageDataGridViewImageColumn.HeaderText = "Image";
             this.imageDataGridViewImageColumn.Name = "imageDataGridViewImageColumn";
             // 
+            // carRepotTableBindingSource
+            // 
+            this.carRepotTableBindingSource.DataMember = "CarRepotTable";
+            this.carRepotTableBindingSource.DataSource = this.infosys202304DataSet;
+            // 
+            // infosys202304DataSet
+            // 
+            this.infosys202304DataSet.DataSetName = "infosys202304DataSet";
+            this.infosys202304DataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            // 
+            // carRepotTableTableAdapter
+            // 
+            this.carRepotTableTableAdapter.ClearBeforeFill = true;
+            // 
             // btConnection
             // 
             this.btConnection.Location = new System.Drawing.Point(5, 417);
@@ -586,6 +587,12 @@ namespace CarReportSystem {
             this.btConnection.Text = "接続";
             this.btConnection.UseVisualStyleBackColor = true;
             this.btConnection.Click += new System.EventHandler(this.btConnection_Click);
+            // 
+            // tableAdapterManager
+            // 
+            this.tableAdapterManager.BackupDataSetBeforeUpdate = false;
+            this.tableAdapterManager.CarRepotTableTableAdapter = this.carRepotTableTableAdapter;
+            this.tableAdapterManager.UpdateOrder = CarReportSystem.infosys202304DataSetTableAdapters.TableAdapterManager.UpdateOrderOption.InsertUpdateDelete;
             // 
             // Form1
             // 
@@ -632,8 +639,8 @@ namespace CarReportSystem {
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.infosys202304DataSet)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.carRepotTableBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.infosys202304DataSet)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -699,6 +706,7 @@ namespace CarReportSystem {
         private System.Windows.Forms.DataGridViewTextBoxColumn reportDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewImageColumn imageDataGridViewImageColumn;
         private System.Windows.Forms.Button btConnection;
+        private infosys202304DataSetTableAdapters.TableAdapterManager tableAdapterManager;
     }
 }
 

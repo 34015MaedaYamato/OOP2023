@@ -103,14 +103,17 @@ namespace CarReportSystem {
 
         //修正ボタン
         private void btUpDateReport_Click(object sender, EventArgs e) {
-            if (dgvCarReports.Rows.Count != 0) {
+            /*if (dgvCarReports.Rows.Count != 0) {
                 CarReports[dgvCarReports.CurrentRow.Index].Date = dtpDate.Value;
                 CarReports[dgvCarReports.CurrentRow.Index].Author = WriterName.Text;
                 CarReports[dgvCarReports.CurrentRow.Index].Maker = getSelectedMaker();
                 CarReports[dgvCarReports.CurrentRow.Index].CarName = CarName.Text;
                 CarReports[dgvCarReports.CurrentRow.Index].Report = ReportBox.Text;
                 dgvCarReports.Refresh();    //一覧更新
-            }
+            }*/
+            this.Validate();
+            this.carRepotTableBindingSource.EndEdit();
+            this.tableAdapterManager.UpdateAll(this.infosys202304DataSet);
         }
 
         //ラジオボタンで選択されているメーカーを返す
@@ -342,5 +345,8 @@ namespace CarReportSystem {
             // TODO: このコード行はデータを 'infosys202304DataSet.CarRepotTable' テーブルに読み込みます。必要に応じて移動、または削除をしてください。
             this.carRepotTableTableAdapter.Fill(this.infosys202304DataSet.CarRepotTable);
         }
+
+
+        
     }
 }
