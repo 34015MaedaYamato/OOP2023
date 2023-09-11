@@ -7,5 +7,4 @@
 
 namespace CarReportSystem.infosys202304DataSetTableAdapters {
     
-    
 }

@@ -199,7 +199,7 @@ namespace CarReportSystem {
             dgvCarReports.RowsDefaultCellStyle.BackColor = Color.AliceBlue; //全体の背景を設定
             dgvCarReports.AlternatingRowsDefaultCellStyle.BackColor = Color.FloralWhite; //奇数業の背景を上書き
 
-            dgvCarReports.Columns[5].Visible = false; //画像項目非表示
+            dgvCarReports.Columns[6].Visible = false; //画像項目非表示
             btUpDateReport.Enabled = false;
             btDleReport.Enabled = false;
             
@@ -231,7 +231,7 @@ namespace CarReportSystem {
         }
 
         //レポート選択
-        private void dgvCarReports_Click(object sender, EventArgs e) {
+        //private void dgvCarReports_Click(object sender, EventArgs e) {
            /* if (dgvCarReports.Rows.Count != 0) {
                 dtpDate.Value = (DateTime)dgvCarReports.CurrentRow.Cells[0].Value;
                 WriterName.Text = dgvCarReports.CurrentRow.Cells[1].Value.ToString();
@@ -243,7 +243,7 @@ namespace CarReportSystem {
                 btUpDateReport.Enabled = true; //修正ボタン有効
                 btDleReport.Enabled = true;　//削除ボタン有効
             }*/
-        }
+        //}
         private void dgvCarReports_CellClick(object sender, DataGridViewCellEventArgs e) {
             if (dgvCarReports.Rows.Count != 0) {
                 dtpDate.Value = (DateTime)dgvCarReports.CurrentRow.Cells[1].Value;
@@ -251,7 +251,7 @@ namespace CarReportSystem {
                 setSelectedMaker(dgvCarReports.CurrentRow.Cells[3].Value.ToString());
                 CarName.Text = dgvCarReports.CurrentRow.Cells[4].Value.ToString();
                 ReportBox.Text = dgvCarReports.CurrentRow.Cells[5].Value.ToString();
-                pbCarImage.Image = !dgvCarReports.CurrentRow.Cells[6].Value.Equals(DBNull.Value) ? ByteArrayToImage((Byte[])dgvCarReports.CurrentRow.Cells[6].Value) : null;
+                pbCarImage.Image = !dgvCarReports.CurrentRow.Cells[6].Value.Equals(DBNull.Value) && ((Byte[])dgvCarReports.CurrentRow.Cells[6].Value).Length != 0 ? ByteArrayToImage((Byte[])dgvCarReports.CurrentRow.Cells[6].Value) : null;
                 
                 btUpDateReport.Enabled = true; //修正ボタン有効
                 btDleReport.Enabled = true;　//削除ボタン有効
@@ -321,7 +321,7 @@ namespace CarReportSystem {
 
         
 
-        private void 保存ToolStripMenuItem_Click(object sender, EventArgs e) {
+        /*private void 保存ToolStripMenuItem_Click(object sender, EventArgs e) {
             if(sfdCarRepoSave.ShowDialog() == DialogResult.OK) {
                 try {
                     //バイナリ形式でシリアル化
@@ -334,9 +334,9 @@ namespace CarReportSystem {
                 }
                 
             }
-        }
+        }*/
 
-        private void 開くToolStripMenuItem1_Click(object sender, EventArgs e) {
+        /*private void 開くToolStripMenuItem1_Click(object sender, EventArgs e) {
             if (ofdCarRepoOpen.ShowDialog() == DialogResult.OK) {
                 try {
                     //逆シリアル化でバイナリ形式を取り込む
@@ -348,31 +348,45 @@ namespace CarReportSystem {
 
                         editItemsClear();//入力途中などのデータはすべてクリア
 
-                        dgvCarReports.Columns[5].Visible = false;   //画像項目非表示
+                        dgvCarReports.Columns[6].Visible = false;   //画像項目非表示
 
                         foreach (var carReport in CarReports) {
                             setWriterName(carReport.Author);
                             setCarName(carReport.CarName);
                         }
                         //または、
-                        /*foreach (var author in CarReports.Select(p => p.Author)) {
+                        *//*foreach (var author in CarReports.Select(p => p.Author)) {
                             setWriterName(author);
                         }
                         foreach (var report in CarReports.Select(p => p.Report)) {
                             setCarName(report);
-                        }*/
+                        }*//*
 
                     }
                 } catch (Exception ex) {
                     MessageBox.Show(ex.Message);
                 }
             }
+        }*/
+
+
+        private void AuthorSearch_Click(object sender, EventArgs e) {
+
         }
 
-        private void btConnection_Click(object sender, EventArgs e) {
+        private void CarNameSearch_Click(object sender, EventArgs e) {
+
+        }
+
+        private void 接続ToolStripMenuItem_Click(object sender, EventArgs e) {
             // TODO: このコード行はデータを 'infosys202304DataSet.CarRepotTable' テーブルに読み込みます。必要に応じて移動、または削除をしてください。
             this.carRepotTableTableAdapter.Fill(this.infosys202304DataSet.CarRepotTable);
-        }
+            dgvCarReports.ClearSelection();
 
+            foreach(var carReport in infosys202304DataSet.CarRepotTable) {
+                setWriterName(carReport.Auther);
+                setCarName(carReport.CarName);
+            }
+        }
     }
 }
