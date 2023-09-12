@@ -50,19 +50,19 @@ namespace Exercise01 {
             var emps = new Employee[] {
                 new Employee {
                     Id = 123,
-                    Name = "出井　秀行",
+                    Name = "出井 秀行",
                     HireDate = new DateTime(2004,5,10)
                 },
                 new Employee {
                     Id = 139,
-                    Name = "大橋　孝仁",
+                    Name = "大橋 孝仁",
                     HireDate = new DateTime(2004, 12, 1)
                 }
             };
             var setting = new XmlWriterSettings {
                 Encoding = new System.Text.UTF8Encoding(false),
                 Indent = true,
-                IndentChars = "　",
+                IndentChars = " ",
             };
             using(var writter = XmlWriter.Create(v, setting)) {
                 var serializer = new DataContractSerializer(emps.GetType());
@@ -81,15 +81,15 @@ namespace Exercise01 {
         }
 
         private static void Exercise1_4(string v) {
-            var emps = new Employee[] {
-                new Employee {
+            var emps = new Employee2[] {
+                new Employee2 {
                     Id = 123,
-                    Name = "出井　秀行",
+                    Name = "出井 秀行",
                     HireDate = new DateTime(2004,5,10)
                 },
-                new Employee {
+                new Employee2 {
                     Id = 139,
-                    Name = "大橋　孝仁",
+                    Name = "大橋 孝仁",
                     HireDate = new DateTime(2004, 12, 1)
                 }
             };
