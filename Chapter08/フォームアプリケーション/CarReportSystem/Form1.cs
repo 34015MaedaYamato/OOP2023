@@ -25,12 +25,12 @@ namespace CarReportSystem {
             MainFormColor = DefaultBackColor.ToArgb()
         };*/
 
+        
 
         public Form1() {
             InitializeComponent();
-            dgvCarReports.DataSource = CarReports;
+            dgvCarReports.DataSource = carRepotTableBindingSource;
             stasLabelDisp(); //ステータスラベル初期化
-
         }
 
         //ステータスラベルのテキスト表示・非表示（引数なしはメッセージ非表示）
@@ -189,17 +189,16 @@ namespace CarReportSystem {
         }
 
         private void Form1_Load(object sender, EventArgs e) {
-
             tsInfoText.Text = ""; //表示領域のテキストを初期化
             tsTimeDisp.Text = DateTime.Now.ToString("yyyy年MM月dd日HH時mm分ss秒");
             tsTimeDisp.BackColor = Color.Black;
             tsTimeDisp.ForeColor = Color.White;
             TimeUpdate.Start();　//時刻更新用のタイマー
-
+            
             dgvCarReports.RowsDefaultCellStyle.BackColor = Color.AliceBlue; //全体の背景を設定
             dgvCarReports.AlternatingRowsDefaultCellStyle.BackColor = Color.FloralWhite; //奇数業の背景を上書き
 
-            dgvCarReports.Columns[6].Visible = false; //画像項目非表示
+            //dgvCarReports.Columns[6].Visible = false; //画像項目非表示
             btUpDateReport.Enabled = false;
             btDleReport.Enabled = false;
             
@@ -319,74 +318,32 @@ namespace CarReportSystem {
             tsTimeDisp.Text = DateTime.Now.ToString("yyyy年MM月dd日HH時mm分ss秒");
         }
 
-        
-
-        /*private void 保存ToolStripMenuItem_Click(object sender, EventArgs e) {
-            if(sfdCarRepoSave.ShowDialog() == DialogResult.OK) {
-                try {
-                    //バイナリ形式でシリアル化
-                    var bf = new BinaryFormatter();
-                    using (FileStream fs = File.Open(sfdCarRepoSave.FileName, FileMode.Create)) {
-                    bf.Serialize(fs, CarReports);
-                    }
-                }catch(Exception ex) {
-                    MessageBox.Show(ex.Message);
-                }
-                
-            }
-        }*/
-
-        /*private void 開くToolStripMenuItem1_Click(object sender, EventArgs e) {
-            if (ofdCarRepoOpen.ShowDialog() == DialogResult.OK) {
-                try {
-                    //逆シリアル化でバイナリ形式を取り込む
-                    var bf = new BinaryFormatter();
-                    using(FileStream fs = File.Open(ofdCarRepoOpen.FileName, FileMode.Open,FileAccess.Read)) {
-                        CarReports = (BindingList<CarReport>)bf.Deserialize(fs);
-                        dgvCarReports.DataSource = null;
-                        dgvCarReports.DataSource = CarReports;
-
-                        editItemsClear();//入力途中などのデータはすべてクリア
-
-                        dgvCarReports.Columns[6].Visible = false;   //画像項目非表示
-
-                        foreach (var carReport in CarReports) {
-                            setWriterName(carReport.Author);
-                            setCarName(carReport.CarName);
-                        }
-                        //または、
-                        *//*foreach (var author in CarReports.Select(p => p.Author)) {
-                            setWriterName(author);
-                        }
-                        foreach (var report in CarReports.Select(p => p.Report)) {
-                            setCarName(report);
-                        }*//*
-
-                    }
-                } catch (Exception ex) {
-                    MessageBox.Show(ex.Message);
-                }
-            }
-        }*/
-
-
         private void AuthorSearch_Click(object sender, EventArgs e) {
-
+            this.carRepotTableTableAdapter.FillByAuther( this.infosys202304DataSet.CarRepotTable,tbAuthorSearch.Text);
         }
 
         private void CarNameSearch_Click(object sender, EventArgs e) {
-
+            this.carRepotTableTableAdapter.FillByCarName(this.infosys202304DataSet.CarRepotTable,tbCarNameSearch.Text);
         }
 
+        private void DateSearch_Click(object sender, EventArgs e) {
+            this.carRepotTableTableAdapter.FillByDate(this.infosys202304DataSet.CarRepotTable,dateTimePicker1.Text,dateTimePicker2.Text);
+        }
+
+        private void Reset_Click(object sender, EventArgs e) {
+            dgvCarReports.Rows.Clear();
+        }
         private void 接続ToolStripMenuItem_Click(object sender, EventArgs e) {
             // TODO: このコード行はデータを 'infosys202304DataSet.CarRepotTable' テーブルに読み込みます。必要に応じて移動、または削除をしてください。
             this.carRepotTableTableAdapter.Fill(this.infosys202304DataSet.CarRepotTable);
             dgvCarReports.ClearSelection();
 
             foreach(var carReport in infosys202304DataSet.CarRepotTable) {
-                setWriterName(carReport.Auther);
+                setWriterName(carReport.Author);
                 setCarName(carReport.CarName);
             }
         }
+
+        
     }
 }
