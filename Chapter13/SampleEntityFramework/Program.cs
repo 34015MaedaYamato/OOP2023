@@ -144,18 +144,18 @@ namespace SampleEntityFramework {
 
         private static void Exercise1_5() {
             using (var db = new BooksDbContext()) {
-                var books = db.Books.Include(nameof(Author)).OrderByDescending(a => a.Author.Birthday).ToList();
+                /*var books = db.Books.Include(nameof(Author)).OrderByDescending(a => a.Author.Birthday).ToList();
                 foreach (var book in books) {
                     Console.WriteLine($"{book.Author.Name} {book.Title} {book.PublishedYear}");
-                }
-                /*var authors = db.Authors.OrderByDescending(a => a.Birthday).ToList();
+                }*/
+                var authors = db.Authors.OrderByDescending(a => a.Birthday).ToList();
                 foreach (var author in authors) {
                     Console.WriteLine($"{author.Name}");
                     var books = db.Books.Include(nameof(Author)).Where(a => a.Author.Name == author.Name);
-                    foreach(var book in books) {
+                    foreach (var book in books) {
                         Console.WriteLine($"　{book.Title} {book.PublishedYear}");
                     }
-                }*/
+                }
             }
         }
 
