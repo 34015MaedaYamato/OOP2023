@@ -25,6 +25,9 @@ namespace RssReader {
                 MessageBox.Show("URLを入力してください");
                 return;
             }
+
+            lbRssTitle.Items.Clear();
+
             using (var wc = new WebClient()) {
                 var url= wc.OpenRead(tbUrl.Text);
                 XDocument xdoc = XDocument.Load(url);
@@ -48,7 +51,8 @@ namespace RssReader {
         private void lbRssTitle_Click(object sender, EventArgs e) {
             var link = ItemDatas.Single(x => x.Title == lbRssTitle.Text);
             webBrowser.Navigate(link.Link);
-            //　先生　webBrowser.Navigate(ItemDatas[lbRssTitle.SelectedIndex].Link);　
+            //先生
+            //webBrowser.Navigate(ItemDatas[lbRssTitle.SelectedIndex].Link);　
         }
     }
 }
