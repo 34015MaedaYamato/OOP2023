@@ -54,5 +54,9 @@ namespace RssReader {
             //先生
             //webBrowser.Navigate(ItemDatas[lbRssTitle.SelectedIndex].Link);　
         }
+
+        private void btAdd_Click(object sender, EventArgs e) {
+
+        }
     }
 }
