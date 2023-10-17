@@ -87,9 +87,15 @@ namespace Exercise01 {
         }
 
         private static void Exercise1_7() {
-            var groups = Library.Books.GroupJoin(Library.Categories, a => a.CategoryId, b => b.Id, (a,categories) => new { Categories = categories});
-            
-            
+            //先生
+            var catid = Library.Categories.Single(c => c.Name == "Development").Id;
+            var groups = Library.Books.Where(b => b.CategoryId == catid).GroupBy(b => b.PublishedYear).OrderBy(b => b.Key);
+            foreach (var group in groups) {
+                Console.WriteLine("#{0}年", group.Key);
+                foreach (var book in group) {
+                    Console.WriteLine(" {0}", book.Title);
+                }
+            }
         }
 
         private static void Exercise1_8() {
@@ -97,6 +103,13 @@ namespace Exercise01 {
             foreach (var group in groups) {
                 Console.WriteLine(group.Category);
             }
+
+
+            //先生
+            //var query = Library.Categories.GroupJoin(Library.Books, c => c.Id, b => b.CategoryId, (c, b) => new { CategoryName = c.Name, Count = b.Count() }).Where(x => x.Count >= 4);
+            //foreach (var category in query) {
+            //    Console.WriteLine(category.CategoryName);
+            //}
         }
     }
 }
