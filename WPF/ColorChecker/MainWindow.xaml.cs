@@ -21,15 +21,16 @@ namespace ColorChecker {
     /// </summary>
     public partial class MainWindow : Window {
 
-        //indingList<Rgb> Rgbs = new BindingList<Rgb>();
+        BindingList<Rgb> Rgbs = new BindingList<Rgb>();
 
         public MainWindow() {
             InitializeComponent();
             DataContext = GetColorList();
+            stockList.ItemsSource = Rgbs;
+            stockList.DisplayMemberPath = "RgbName";
         }
 
-        private AllColorList[] GetColorList()
-        {
+        private AllColorList[] GetColorList(){
             return typeof(Colors).GetProperties(BindingFlags.Public | BindingFlags.Static)
                 .Select(i => new AllColorList() { Color = (Color)i.GetValue(null), Name = i.Name }).ToArray();
         }
@@ -38,17 +39,22 @@ namespace ColorChecker {
             byte r = (byte)((int)rSlider.Value);
             byte g = (byte)((int)gSlider.Value);
             byte b = (byte)((int)bSlider.Value);
+            rValue.Text = ((int)rSlider.Value).ToString();
+            gValue.Text = ((int)gSlider.Value).ToString();
+            bValue.Text = ((int)bSlider.Value).ToString();
             colorArea.Background = new SolidColorBrush(Color.FromRgb(r, g, b));
         }
 
         private void stockButton_Click(object sender, RoutedEventArgs e) {
             Rgb NewRgb = new Rgb();
+            
+            NewRgb.RgbName = "R="+ rSlider.Value + " G="+ gSlider.Value + " B="+ bSlider.Value;
             NewRgb.R = (byte)((int)rSlider.Value);
             NewRgb.G = (byte)((int)gSlider.Value);
             NewRgb.B = (byte)((int)bSlider.Value);
-
-            stockList.Items.Add(NewRgb);
+            Rgbs.Add(NewRgb);
         }
+
 
         private void stockList_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
             Rgb rgb = (Rgb)stockList.SelectedItem;
