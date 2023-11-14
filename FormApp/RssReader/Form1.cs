@@ -15,9 +15,14 @@ namespace RssReader {
     public partial class Form1 : Form {
         //取得データ保存用
         List<ItemData> ItemDatas = new List<ItemData>();
+        BindingList<ItemData> RssList = new BindingList<ItemData>();
 
         public Form1() {
             InitializeComponent();
+            dgvFavorite.DataSource = RssList;
+            RssList.Add(new ItemData { Title = "国内", Link = "https://news.yahoo.co.jp/rss/categories/domestic.xml" });
+            RssList.Add(new ItemData { Title = "国際", Link = "https://news.yahoo.co.jp/rss/categories/world.xml" });
+            RssList.Add(new ItemData { Title = "経済", Link = "https://news.yahoo.co.jp/rss/categories/business.xml" });
         }
 
         private void btGet_Click(object sender, EventArgs e) {
@@ -25,15 +30,22 @@ namespace RssReader {
                 MessageBox.Show("URLを入力してください");
                 return;
             }
+            Url_Load();
+        }
 
+        //urlからタイトル一覧を取得する処理をメソッド化
+        private void Url_Load() {
             lbRssTitle.Items.Clear();
+            ItemDatas.Clear();
 
             using (var wc = new WebClient()) {
-                var url= wc.OpenRead(tbUrl.Text);
+                var url = wc.OpenRead(tbUrl.Text);
                 XDocument xdoc = XDocument.Load(url);
                 var nodes = xdoc.Root.Descendants("item")
-                    .Select(x => new ItemData { Title = (string)x.Element("title"),
-                                                Link = (string)x.Element("link") }).ToList();　//titleとlinkを取得
+                    .Select(x => new ItemData {
+                        Title = (string)x.Element("title"),
+                        Link = (string)x.Element("link")
+                    }).ToList();　//titleとlinkを取得
 
                 foreach (var node in nodes) {
                     lbRssTitle.Items.Add(node.Title);
@@ -56,7 +68,13 @@ namespace RssReader {
         }
 
         private void btAdd_Click(object sender, EventArgs e) {
+            RssList.Add(new ItemData { Title = tbLinkName.Text, Link = tbUrl.Text });
+            
+        }
 
+        private void dgvFavorite_CellClick(object sender, DataGridViewCellEventArgs e) {
+            tbUrl.Text = (string)dgvFavorite.CurrentRow.Cells[1].Value;
+            Url_Load();
         }
     }
 }

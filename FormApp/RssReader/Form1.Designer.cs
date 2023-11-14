@@ -58,9 +58,9 @@ namespace RssReader {
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lbRssTitle.FormattingEnabled = true;
             this.lbRssTitle.ItemHeight = 12;
-            this.lbRssTitle.Location = new System.Drawing.Point(12, 73);
+            this.lbRssTitle.Location = new System.Drawing.Point(12, 49);
             this.lbRssTitle.Name = "lbRssTitle";
-            this.lbRssTitle.Size = new System.Drawing.Size(283, 208);
+            this.lbRssTitle.Size = new System.Drawing.Size(320, 232);
             this.lbRssTitle.TabIndex = 2;
             this.lbRssTitle.Click += new System.EventHandler(this.lbRssTitle_Click);
             // 
@@ -78,25 +78,28 @@ namespace RssReader {
             // 
             // dgvFavorite
             // 
+            this.dgvFavorite.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dgvFavorite.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgvFavorite.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvFavorite.Location = new System.Drawing.Point(338, 81);
+            this.dgvFavorite.Location = new System.Drawing.Point(338, 83);
             this.dgvFavorite.Name = "dgvFavorite";
             this.dgvFavorite.RowTemplate.Height = 21;
-            this.dgvFavorite.Size = new System.Drawing.Size(409, 166);
+            this.dgvFavorite.Size = new System.Drawing.Size(476, 198);
             this.dgvFavorite.TabIndex = 4;
+            this.dgvFavorite.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvFavorite_CellClick);
             // 
             // tbLinkName
             // 
-            this.tbLinkName.Location = new System.Drawing.Point(420, 50);
+            this.tbLinkName.Location = new System.Drawing.Point(339, 58);
             this.tbLinkName.Name = "tbLinkName";
-            this.tbLinkName.Size = new System.Drawing.Size(320, 19);
+            this.tbLinkName.Size = new System.Drawing.Size(402, 19);
             this.tbLinkName.TabIndex = 5;
             // 
             // btAdd
             // 
-            this.btAdd.Location = new System.Drawing.Point(764, 54);
+            this.btAdd.Location = new System.Drawing.Point(746, 43);
             this.btAdd.Name = "btAdd";
-            this.btAdd.Size = new System.Drawing.Size(68, 33);
+            this.btAdd.Size = new System.Drawing.Size(68, 34);
             this.btAdd.TabIndex = 6;
             this.btAdd.Text = "お気に入り登録";
             this.btAdd.UseVisualStyleBackColor = true;
