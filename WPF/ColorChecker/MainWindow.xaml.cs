@@ -56,7 +56,11 @@ namespace ColorChecker {
         }
 
 
-        private void stockList_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
+        /*private void stockList_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
+            Rgb rgb = (Rgb)stockList.SelectedItem;
+            setColor(rgb);
+        }*/
+        private void stockList_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             Rgb rgb = (Rgb)stockList.SelectedItem;
             setColor(rgb);
         }
