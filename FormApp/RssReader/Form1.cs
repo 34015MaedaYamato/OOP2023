@@ -32,17 +32,32 @@ namespace RssReader {
                 MessageBox.Show("URLを入力してください");
                 return;
             }
+            if (!Url_Cheak()) {//Url整合性チェック
+                return;
+            }
             Url_Load();
         }
 
-        //urlからタイトル一覧を取得する処理をメソッド化(URLの整合性チェック機能付き)
-        private bool Url_Load() {
-
+        //urlからタイトル一覧を取得する処理をメソッド化
+        private void Url_Load() {
             lbRssTitle.Items.Clear();
             ItemDatas.Clear();
 
             using (var wc = new WebClient()) {
-                try {
+                var url = wc.OpenRead(tbUrl.Text);
+                XDocument xdoc = XDocument.Load(url);
+                var nodes = xdoc.Root.Descendants("item")
+                    .Select(x => new ItemData {
+                        Title = (string)x.Element("title"),
+                        Link = (string)x.Element("link")
+                    }).ToList(); //titleとlinkを取得
+                foreach (var node in nodes) {
+                    lbRssTitle.Items.Add(node.Title);
+                    ItemDatas.Add(node);
+                }
+            }
+            /*try {
+                using (var wc = new WebClient()) {
                     var url = wc.OpenRead(tbUrl.Text);
                     XDocument xdoc = XDocument.Load(url);
                     var nodes = xdoc.Root.Descendants("item")
@@ -54,20 +69,33 @@ namespace RssReader {
                         lbRssTitle.Items.Add(node.Title);
                         ItemDatas.Add(node);
                     }
-
-                    //先生
-                    /*ItemDatas = xdoc.Root.Descendants("item").Select(x => new ItemData { Title = (string)x.Element("title"), Link = (string)x.Element("link") }).ToList();
-                    foreach (var node in ItemDatas) {
-                        lbRssTitle.Items.Add(node.Title);
-                    }*/
-                    return true;
-                } catch (WebException) {
-                    MessageBox.Show("不正なURLです。");
-                    return　false;
                 }
-            }
-            
+                //先生
+                *//*ItemDatas = xdoc.Root.Descendants("item").Select(x => new ItemData { Title = (string)x.Element("title"), Link = (string)x.Element("link") }).ToList();
+                foreach (var node in ItemDatas) {
+                    lbRssTitle.Items.Add(node.Title);
+                }*//*
+
+                return true;
+            } catch (WebException) {
+                MessageBox.Show("不正なURLです。");
+                return false;
+            }*/
         }
+
+        //URLが不正かどうかのチェック
+        public bool Url_Cheak() {
+            try {
+                using (var wc = new WebClient()) {
+                    var url = wc.OpenRead(tbUrl.Text);
+                }
+                return true;
+            } catch(WebException) {
+                MessageBox.Show("不正なURLです。");
+                return false;
+            }
+        }
+            
 
         //タイトル一覧のリストボックス選択
         private void lbRssTitle_Click(object sender, EventArgs e) {
@@ -83,8 +111,8 @@ namespace RssReader {
                 MessageBox.Show("URLを入力してください");
                 return;
             }
-            if (!Url_Load()) {　//URL整合性チェック
-                return;
+            if (!Url_Cheak()) {　//URL整合性チェック
+               return;
             }
             if (tbLinkName.Text == "") {
                 MessageBox.Show("お気に入り名を入力してください");
