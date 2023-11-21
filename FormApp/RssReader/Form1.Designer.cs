@@ -83,6 +83,7 @@ namespace RssReader {
             this.dgvFavorite.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgvFavorite.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvFavorite.Location = new System.Drawing.Point(436, 96);
+            this.dgvFavorite.MultiSelect = false;
             this.dgvFavorite.Name = "dgvFavorite";
             this.dgvFavorite.RowTemplate.Height = 21;
             this.dgvFavorite.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -144,7 +145,7 @@ namespace RssReader {
             this.Controls.Add(this.btGet);
             this.Controls.Add(this.tbUrl);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "RssReader";
             ((System.ComponentModel.ISupportInitialize)(this.dgvFavorite)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
